@@ -8,7 +8,7 @@
 
 <script>
 export default {
-  name: 'apple',
+  name: 'applePage',
   data () {
     return {
       msg: 'i am apple.'

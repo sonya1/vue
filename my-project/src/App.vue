@@ -3,7 +3,8 @@
     <img src="./assets/logo.png">
     <router-view/>
 
-    <router-link to="/apple">to apple</router-link><br>
+   <!--  <router-link to="/apple" tag="li">to apple</router-link><br> -->
+    <router-link :to="{name:'applePage'}" tag="li">to apple</router-link><br>
     <router-link :to="{path:'banana'}">to banana</router-link><br>
     <router-link :to="{path:'banana/red'}">to banana red</router-link><br>
   </div>
