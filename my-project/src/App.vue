@@ -1,17 +1,29 @@
 <template>
   <div id="app">
     <img src="./assets/logo.png">
-    <router-view/>
-
-   <!--  <router-link to="/apple" tag="li">to apple</router-link><br> -->
-    <router-link :to="{name:'applePage'}" tag="li">to apple</router-link><br>
-    <router-link :to="{path:'banana'}">to banana</router-link><br>
-    <router-link :to="{path:'banana/red'}">to banana red</router-link><br>
+    {{totalPrice}}
+   <!--  <router-view/>
+   
+      <router-link to="/apple" tag="li">to apple</router-link><br>
+   <router-link :to="{name:'applePage'}" tag="li">to apple</router-link><br>
+   <router-link :to="{path:'banana'}">to banana</router-link><br>
+   <router-link :to="{path:'banana/red'}">to banana red</router-link><br> -->
+   <apple></apple>
+   <banana></banana>
   </div>
 </template>
 
 <script>
+import Apple from './components/apple'
+import Banana from './components/banana'
 export default {
+  components:{Apple,Banana},
+  computed:{
+    totalPrice(){
+/*      return this.$store.state.totalPrice;*/
+        return this.$store.getters.getTotal;
+    } 
+  },
   name: 'app'
 }
 </script>
