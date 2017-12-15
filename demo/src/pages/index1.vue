@@ -1,5 +1,6 @@
 <template>
   <div class="index-wrap">
+
     <div class="index-left">
       <div class="index-left-block">
         <h2>全部产品</h2>
@@ -24,6 +25,8 @@
         </ul>
       </div>
     </div>
+
+    
     <div class="index-right">
       <slide-show :slides="slides" :inv="invTime"></slide-show>
       <div class="index-board-list">

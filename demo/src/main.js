@@ -8,6 +8,7 @@ import IndexPage from './pages/index'
 
 Vue.use(VueRouter); //注册vue-router
 Vue.use(VueResource);
+
 let router = new VueRouter({
 	mode:"history",
 	routes:[
