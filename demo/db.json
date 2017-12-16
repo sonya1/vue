@@ -22,8 +22,8 @@
     }
   ],
   "login": {
-    "username": "yudongdong",
-    "userId": 123123
+    "username": "sonya@qq",
+    "password": "123"
   },
   "getPrice": {
     "amount": 678
