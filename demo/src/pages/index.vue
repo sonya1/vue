@@ -40,7 +40,7 @@
 	              <h2>{{ item.title }}</h2>
 	              <p>{{ item.description }}</p>
 	              <div class="index-board-button">
-<!-- 	                <router-link class="button" :to="{path: 'detail/' + item.toKey}">立即购买</router-link>-->
+ 	                <router-link class="button" :to="{path: 'detail/' + item.toKey}">立即购买</router-link>
 	              </div>  
 	            </div>
 	          </div>
