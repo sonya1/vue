@@ -52,7 +52,7 @@
          <div class="sales-board-line">
              <div class="sales-board-line-left">&nbsp;</div>
              <div class="sales-board-line-right">
-                 <div class="button" >
+                 <div class="button" @click="showPayDialog">
                    立即购买
                  </div>
              </div>
@@ -80,7 +80,7 @@
           <li>用户所在地理区域分布状况等</li>
         </ul>
       </div>
-     <!--  <my-dialog :is-show="isShowPayDialog" @on-close="hidePayDialog">
+      <my-dialog :is-show="isShowPayDialog" @on-close="hidePayDialog">
        <table class="buy-dialog-table">
          <tr>
            <th>购买数量</th>
@@ -105,10 +105,12 @@
          确认购买
        </div>
      </my-dialog>
+
      <my-dialog :is-show="isShowErrDialog" @on-close="hideErrDialog">
        支付失败！
      </my-dialog>
-     <check-order :is-show-check-dialog="isShowCheckOrder" :order-id="orderId" @on-close-check-dialog="hideCheckOrder"></check-order> -->
+
+     <check-order :is-show-check-dialog="isShowCheckOrder" :order-id="orderId" @on-close-check-dialog="hideCheckOrder"></check-order>
   </div>
 </template>
 
@@ -117,18 +119,24 @@ import VCounter from '../../components/base/counter'
 import VSelection from '../../components/base/selection'
 import VChooser from '../../components/base/chooser'
 import VMulChooser from '../../components/base/multiplyChooser'
+import Dialog from '../../components/base/dialog'
+import BankChooser from '../../components/bankChooser'
+import CheckOrder from '../../components/checkOrder'
 export default{
 	components:{
 		VCounter,
 		VSelection,
     VChooser,
-    VMulChooser
+    VMulChooser,
+    MyDialog:Dialog,
+    BankChooser,
+    CheckOrder
 	},
 	data(){
 		return {
       buyNum:0,
       buyType:{},
-      version:[],
+      versions:[],
       period:{},
       price:0,
 			buyTypes:[
@@ -173,6 +181,11 @@ export default{
           value: 2
         }
       ],
+      isShowPayDialog:false,
+      banksId:null,
+      orderId:null,
+      isShowCheckOrder:false,
+      isShowErrDialog:false,
 		}
 	},
   methods:{
@@ -197,15 +210,52 @@ export default{
       });
     },
 
-     mounted(){  //??
-      alert(111);
-        this.buyNum = 1;
-        this.buyType = this.buyTypes[0];
-        this.versions = [this.versionList[0]];
-        this.period = this.periodList[0];
-        this.getPrice();
+    showPayDialog(){
+      this.isShowPayDialog = true;
+    },
+    hidePayDialog(){
+      this.isShowPayDialog = false;
+    },
+    hideErrDialog(){
+      this.isShowErrDialog = false;
+    },
+     hideCheckOrder(){
+      this.isShowCheckOrder = false;
+    },
+    onChangeBanks(bankObj){
+      this.bankId = bankObj.id
+    },
+
+    confirmBuy(){
+      let buyVersionsArray = _.map(this.versions,(item)=>{
+        return item.value;
+      });
+      let reqParams = {
+        buyNumber:this.buyNum,
+        buyType:this.buyType.value,
+        period:this.period.value,
+        version:buyVersionsArray.join(','),
+        bankId:this.bankId
       }
-  }
+      this.$http.post('/api/createOrder',reqParams)
+      .then((res)=>{
+        console.log("ressss",res);
+          this.orderId = res.data.orderId;
+          this.isShowCheckOrder = true;
+          this.isShowPayDialog = true;
+      },(err)=>{
+          this.isShowBuyDialog = false;
+          this.isShowErrDialog = true;
+      });
+    }
+  },
+  mounted(){  
+      this.buyNum = 1;
+      this.buyType = this.buyTypes[0];
+      this.versions = [this.versionList[0]];
+      this.period = this.periodList[0];
+      this.getPrice();
+    }
 }
 </script>
 
